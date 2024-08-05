@@ -42,4 +42,4 @@ app.use(function (err, req, res, next) {
 //v0.1
 //RQ:5000 twali lien mba3ed
 const server=http.createServer(app);
-server.listen(5000,()=>{console.log("app is running on port 5000")}); 
+server.listen(process.env.PORT ,()=>{console.log("app is running on port 5000")}); 
