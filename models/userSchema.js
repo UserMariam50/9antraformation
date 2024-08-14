@@ -51,9 +51,10 @@ const userSchema = new mongoose.Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     image_user: { type: String, default: "Client.png" },
-    role: { type: String, enum: ["admin", "client"] },
+    role: { type: String, enum: ["admin", "client"], required: true },
     etat: { type: Boolean },
-    age: { type: Number },
+    age: { type: Number, default: false },
+    orders: [{ type: mongoose.Schema.Types.ObjectId, ref: "Order" }],
   },
   { timestamps: true }
 );

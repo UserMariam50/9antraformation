@@ -15,25 +15,34 @@ require("dotenv").config();
 const {connectToMongoDB}=require("./db/db")
 
 
+// njibou  les routes mta3na
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var osRouter = require("./routes/osRouter");
 var authRouter = require("./routes/authRouter");
 var platRoutes = require("./routes/platRoutes");
+var menuRouter = require("./routes/menuRouter");
 
 
 var app = express();
+
+
+//nesta3mlou les routes hathom eli lazmin par defaut
 
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+
+//nesta3mlou tawa les routes eli jebnahom [eli ani sna3thom]
+
 app.use('/auth',authRouter);
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/plats", platRoutes);
+app.use("/menu", menuRouter);
 
 app.use('/os',osRouter);
 

@@ -6,10 +6,11 @@ const platSchema = new mongoose.Schema(
     description: { type: String, required: true },
     prix: { type: Number, required: true },
     categorie: { type: String, required: true },
-    ingredients: {type: String , required: true }, // Liste de chaînes de caractères
+    ingredients: { type: String, required: true }, // Liste de chaînes de caractères/ Peut être amélioré avec un tableau de chaînes de caractères
     vegetarian: { type: Boolean, default: false },
-    image_plat: { type: String, default: "Plat.png" }
-
+    vegetarian: { type: Boolean, default: false },
+    image_plat: { type: String, default: "Plat.png" },
+    menu: { type: mongoose.Schema.Types.ObjectId, ref: "Menu" },
   },
   { timestamps: true }
 );
@@ -20,3 +21,4 @@ platSchema.post("save", function (doc, next) {
 
 const Plat = mongoose.model("Plat", platSchema);
 module.exports = Plat;
+
