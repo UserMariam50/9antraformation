@@ -1,4 +1,55 @@
+const QRCode = require("qrcode");
 const Menu = require("../models/menuSchema");
+
+//partieQR
+
+// Fonction auxiliaire pour générer un QR code
+const generateQRCode = async (content) => {
+  try {
+    return await QRCode.toDataURL(content);
+  } catch (err) {
+    throw new Error("Erreur lors de la génération du QR code: " + err.message);
+  }
+};
+
+// Créer un nouveau menu avec QR code
+exports.createNewMenuQR = async (req, res) => {
+  try {
+    const newMenu = new Menu(req.body);
+    const qrCodeContent = `http://localhost:5000/menu/afficherLesPlatsDeMenuId/${newMenu._id}`;
+
+    // Générer le QR code
+    const qrCodeData = await generateQRCode(qrCodeContent);
+    newMenu.qrCode = qrCodeData; // Stocker le QR code dans la base de données
+
+    await newMenu.save();
+    res.status(201).json({ message: "Menu créé avec succès", newMenu });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// Mettre à jour un menu avec QR code
+exports.updateMenuQR = async (req, res) => {
+  try {
+    const menu = await Menu.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    if (!menu) {
+      return res.status(404).json({ message: "Menu non trouvé" });
+    }
+
+    // Mettre à jour le QR code si nécessaire
+    const qrCodeContent = `http://localhost:5000/menu/afficherLesPlatsDeMenuId/${menu._id}`;
+    const qrCodeData = await generateQRCode(qrCodeContent);
+    menu.qrCode = qrCodeData;
+
+    await menu.save();
+    res.status(200).json({ message: "Menu mis à jour avec succès", menu });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
 
 // Créer un nouveau menu
 exports.createNewMenu = async (req, res) => {
@@ -57,14 +108,14 @@ exports.recherchePlatParId = async (req, res) => {
     const { menuId, platId } = req.params;
 
     // Trouver le menu par son ID
-    const menu = await Menu.findById(menuId).populate('plats');
+    const menu = await Menu.findById(menuId).populate("plats");
 
     if (!menu) {
       return res.status(404).json({ message: "Menu non trouvé" });
     }
 
     // Trouver le plat dans la liste des plats du menu
-    const plat = menu.plats.find(plat => plat._id.toString() === platId);
+    const plat = menu.plats.find((plat) => plat._id.toString() === platId);
 
     if (!plat) {
       return res.status(404).json({ message: "Plat non trouvé dans ce menu" });
@@ -82,17 +133,19 @@ exports.afficherPlatsVegetariens = async (req, res) => {
     const { menuId } = req.params;
 
     // Trouver le menu par son ID et peupler la liste des plats
-    const menu = await Menu.findById(menuId).populate('plats');
+    const menu = await Menu.findById(menuId).populate("plats");
 
     if (!menu) {
       return res.status(404).json({ message: "Menu non trouvé" });
     }
 
     // Filtrer les plats végétariens
-    const platsVegetariens = menu.plats.filter(plat => plat.vegetarian);
+    const platsVegetariens = menu.plats.filter((plat) => plat.vegetarian);
 
     if (platsVegetariens.length === 0) {
-      return res.status(404).json({ message: "Aucun plat végétarien trouvé dans ce menu" });
+      return res
+        .status(404)
+        .json({ message: "Aucun plat végétarien trouvé dans ce menu" });
     }
 
     res.status(200).json({ platsVegetariens });
@@ -100,7 +153,6 @@ exports.afficherPlatsVegetariens = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-
 
 exports.afficherPlatsParCategorie = async (req, res) => {
   try {

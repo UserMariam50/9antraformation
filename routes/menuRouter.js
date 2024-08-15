@@ -2,6 +2,12 @@ const express = require("express");
 const router = express.Router();
 const menuController = require("../controller/menuController");
 
+router.post("/createNewMenuQR", menuController.createNewMenuQR);
+router.put("/updateMenuQR/:id", menuController.updateMenuQR);
+
+
+
+
 // Route pour créer un nouveau menu
 router.post("/createNewMenu", menuController.createNewMenu);
 

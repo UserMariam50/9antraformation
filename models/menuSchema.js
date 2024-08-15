@@ -4,6 +4,7 @@ const menuSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
     plats: [{ type: mongoose.Schema.Types.ObjectId, ref: "Plat" }],
+    qrCode: { type: String, unique: true }, // Champ pour stocker l'URL ou l'ID du QR code
   },
   { timestamps: true }
 ); // Ajout de 'timestamps: true' pour la cohérence
