@@ -8,9 +8,9 @@ const platSchema = new mongoose.Schema(
     categorie: { type: String, required: true },
     ingredients: { type: String, required: true }, // Liste de chaînes de caractères/ Peut être amélioré avec un tableau de chaînes de caractères
     vegetarian: { type: Boolean, default: false },
-    vegetarian: { type: Boolean, default: false },
     image_plat: { type: String, default: "Plat.png" },
     menu: { type: mongoose.Schema.Types.ObjectId, ref: "Menu" },
+    qrCode: { type: String, unique: true }, // Champ pour stocker l'URL ou l'ID du QR code
   },
   { timestamps: true }
 );

@@ -2,6 +2,17 @@ const express = require("express");
 const router = express.Router();
 const platController = require("../controller/platController");
 
+//parte QR 
+
+// Route pour récupérer un plat par ID via QR code
+//router.get('/plats/:id', platController.afficherDetailPlat);
+router.put("/updatePlat/:id", platController.updatePlat);
+router.post("/createNewPlat", platController.createNewPlat);
+
+
+
+
+
 // Route pour ajouter un plat
 router.post("/ajouterPlat", platController.ajouterPlat);
 
