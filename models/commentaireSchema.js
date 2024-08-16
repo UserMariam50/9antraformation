@@ -4,6 +4,8 @@ const commentaireSchema = new mongoose.Schema(
   {
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     plat: { type: mongoose.Schema.Types.ObjectId, ref: "Plat" },
+    menu: { type: mongoose.Schema.Types.ObjectId, ref: "Menu" }, // Pour commenter un menu
+
     content: { type: String, required: true },
   },
   { timestamps: true }

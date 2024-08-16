@@ -25,6 +25,9 @@ var platRoutes = require("./routes/platRoutes");
 var menuRouter = require("./routes/menuRouter");
 
 
+var orderRoutes = require("./routes/orderRouter");
+var commentaireRoutes = require("./routes/commentaireRouter");
+
 var app = express();
 
 
@@ -43,6 +46,13 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/plats", platRoutes);
 app.use("/menu", menuRouter);
+
+
+app.use("/orders", orderRoutes);
+app.use("/commentaires", commentaireRoutes);
+
+
+
 
 app.use('/os',osRouter);
 
